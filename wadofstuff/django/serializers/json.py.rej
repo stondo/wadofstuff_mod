@@ -1,0 +1,16 @@
+***************
+*** 17,22 ****
+          self.options.pop('excludes', None)
+          self.options.pop('relations', None)
+          self.options.pop('extras', None)
+          simplejson.dump(self.objects, self.stream, cls=DjangoJSONEncoder,
+              **self.options)
+  
+--- 17,23 ----
+          self.options.pop('excludes', None)
+          self.options.pop('relations', None)
+          self.options.pop('extras', None)
++         self.options.pop('subclass', None)
+          simplejson.dump(self.objects, self.stream, cls=DjangoJSONEncoder,
+              **self.options)
+  

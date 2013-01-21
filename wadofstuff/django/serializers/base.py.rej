@@ -1,0 +1,44 @@
+***************
+*** 20,25 ****
+          self.excludes = None
+          self.relations = None
+          self.extras = None
+          super(Serializer, self).__init__(*args, **kwargs)
+  
+      def serialize(self, queryset, **options):
+--- 26,32 ----
+          self.excludes = None
+          self.relations = None
+          self.extras = None
++         self.subclass = False
+          super(Serializer, self).__init__(*args, **kwargs)
+  
+      def serialize(self, queryset, **options):
+***************
+*** 38,48 ****
+          self.excludes = options.get("excludes", [])
+          self.relations = options.get("relations", [])
+          self.extras = options.get("extras", [])
+  
+          self.start_serialization()
+          for obj in queryset:
+              self.start_object(obj)
+-             for field in obj._meta.local_fields:
+                  attname = field.attname
+                  if field.serialize:
+                      if field.rel is None:
+--- 47,60 ----
+          self.excludes = options.get("excludes", [])
+          self.relations = options.get("relations", [])
+          self.extras = options.get("extras", [])
++         self.subclass = options.get("subclass", False)
+  
+          self.start_serialization()
+          for obj in queryset:
++             if self.subclass is True:
++                 obj = get_subclass(obj)
+              self.start_object(obj)
++             for field  in obj._meta.fields:
+                  attname = field.attname
+                  if field.serialize:
+                      if field.rel is None:

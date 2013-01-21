@@ -1,0 +1,16 @@
+***************
+*** 112,117 ****
+              if isinstance(self.relations, dict):
+                  if isinstance(self.relations[fname], dict):
+                      options = self.relations[fname]
+              self._fields[fname] = [
+                  serializer.serialize([related], **options)[0]
+                     for related in getattr(obj, fname).iterator()]
+--- 121,127 ----
+              if isinstance(self.relations, dict):
+                  if isinstance(self.relations[fname], dict):
+                      options = self.relations[fname]
++             options['subclass']=self.subclass
+              self._fields[fname] = [
+                  serializer.serialize([related], **options)[0]
+                     for related in getattr(obj, fname).iterator()]
